@@ -6,7 +6,7 @@ var server = supertest.agent("http://localhost:8000");
 // UNIT test begin
 describe("GET Request",function(){
 
-  it("Welcome to node app",function(done){
+  it("",function(done){
 
     // calling api
     server.get("/healthz")
