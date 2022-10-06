@@ -1,7 +1,5 @@
 # webapp
-
-Starting Server
-npm start
+#webapp
 
 Built a service that will accept following HTTP request at
 
@@ -13,7 +11,8 @@ PUT - http://localhost:8080/v1/user/self/
 
 GET - http://localhost:8080/v1/user/self
 
-Responds with following HTTP messages
+
+<h4> Responds with following HTTP messages</h4>
 
 "400 Bad Request - The server could not understand the request due to invalid syntax."
 
@@ -27,7 +26,7 @@ Responds with following HTTP messages
 
 "204 No Content - The HTTP 204 No Content success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page."
 
-What you Need
+<h4>What you Need</h4>
 IDE (VScode)
 
 POSTMAN
@@ -38,7 +37,7 @@ npm
 
 JavaScript
 
-Instructions:
+<h4>Instructions:</h4>
 Step 1: Download and unzip the source repository for this guide, or clone it using Git.
 
 Step 2: Create appropriate files in the IDE and write the code to test the API call in Postman.
@@ -58,7 +57,10 @@ http://localhost:8080/v1/user/self/ where you should see: "204 No Content".
 
 http://localhost:8080/v1/user/self where you should use: "204 No Content".
 
-Important Commands
+<h4>Important Commands</h4>
+
 brew install mysql
 
 npm start
+
+npm test
