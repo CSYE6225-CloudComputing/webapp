@@ -19,7 +19,6 @@ describe("GET Request",function(){
     .expect(200)
     .end(function(err,res){
       // HTTP status should be 200
-      console.log(res)
       res.status.should.equal(200);
       done();
     });
