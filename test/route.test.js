@@ -1,7 +1,7 @@
 var supertest = require("supertest");
 var should = require("should");
 
-var server = supertest.agent("http://localhost:8000");
+var server = supertest.agent("http://localhost:8080");
 
 // UNIT test begin
 describe("GET Request",function(){
