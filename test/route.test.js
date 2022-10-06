@@ -1,7 +1,12 @@
 var supertest = require("supertest");
 var should = require("should");
 
-var server = supertest.agent("http://localhost:8100");
+const dotenv = require('dotenv');
+dotenv.config();
+
+const PORT = process.env.PORT || 8100;
+
+var server = supertest.agent(`http://localhost:${PORT}`);
 
 // UNIT test begin
 describe("GET Request",function(){
