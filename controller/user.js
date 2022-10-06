@@ -27,7 +27,7 @@ const createUser = (req, res, next) => {
         (err, result) => {
             if (result.length) {
                 return res
-                    .status(409)
+                    .status(400)
                     .send({msg: 'This user is already in use!'});
             } else {
                 // username is available
