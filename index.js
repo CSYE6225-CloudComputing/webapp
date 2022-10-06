@@ -7,10 +7,11 @@ dotenv.config();
 // Body Parser
 app.use(express.json());
 
-const PORT = process.env.PORT || 8100;
-
 // Mount Router
-app.use("/", require("./routes/route"));
+app.use("/", require('./routes/route'));
+
+
+const PORT = process.env.PORT || 8100;
 
 app.listen(PORT, ()=>{
     console.log(`listening on port ${PORT}`)
