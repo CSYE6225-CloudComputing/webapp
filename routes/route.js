@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-//db connection
-// const db = require('../utils/connection');
 
 
 //validation
@@ -20,15 +18,14 @@ router.get('/healthz', getHealth)
 
 
 //creating user 
-router.post('/v1/user', signupValidation, createUser);
+router.post('/v1/account', signupValidation, createUser);
 
 
 //getting user
-router.get('/v1/user/self', loginValidation, getUser);
-
+router.get(`/v1/account/:id`, loginValidation, getUser);
 
 //updating user
-router.put('/v1/user/self', updateUser)
+router.put(`/v1/account/:id`, updateUser)
 
 
 

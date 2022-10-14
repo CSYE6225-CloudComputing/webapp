@@ -5,11 +5,11 @@ Built a service that will accept following HTTP request at
 
 GET - http://localhost:8080/healthz/
 
-POST - http://localhost:8080/v1/user/
+POST - http://localhost:8080/v1/account/
 
-PUT - http://localhost:8080/v1/user/self/
+PUT - http://localhost:8080/v1/account/{accountId}
 
-GET - http://localhost:8080/v1/user/self
+GET - http://localhost:8080/v1/account/{accountId}
 
 
 <h4> Responds with following HTTP messages</h4>
