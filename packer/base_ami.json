@@ -1,0 +1,39 @@
+{
+    "variables": {
+    "aws_access_key": "AKIA2UIWI4CMTZJK624R",
+    "aws_secret_key": "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",
+    "vpc_region": "us-east-1",
+    "vpc_id": "vpc-0cbbb59d08f9d3cc6",
+    "source_ami": "ami-08c40ec9ead489470",
+    "subnet_id": "subnet-02bb6c4836a080b5e",
+    "ssh_username": "ubuntu"
+  },
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `vpc_region`}}",
+        "vpc_id": "{{user `vpc_id`}}",
+        "instance_type": "t2.micro",
+        "source_ami": "{{user `source_ami`}}",
+        "associate_public_ip_address": true,
+        "ami_name": "ami-08c40ec9ead489470",
+        "ami_groups": "all",
+        "ssh_username": "{{user `ssh_username`}}",
+        "ami_block_device_mappings": [
+            {
+                "delete_on_termination": true,
+                "device_name": "/dev/xvda",
+                "volume_size": 60,
+                "volume_type": "gp2"
+            }
+        ],
+        "tags": {
+            "Tool": "Packer",
+            "Author": "user",
+            "Environment": "dev"
+        }
+      }
+    ]
+  }
