@@ -66,3 +66,14 @@ npm start
 npm test
 
 <h4> Packer </h4>
+
+Update Packer
+```
+packer validate base_ami.json
+```
+
+
+Build Packer
+```
+packer build base_ami.json
+```
