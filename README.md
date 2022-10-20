@@ -12,7 +12,7 @@ PUT - http://localhost:8080/v1/account/{accountId}
 GET - http://localhost:8080/v1/account/{accountId}
 
 
-<h4> Responds with following HTTP messages</h4>
+# Responds with following HTTP messages
 
 "400 Bad Request - The server could not understand the request due to invalid syntax."
 
@@ -26,7 +26,8 @@ GET - http://localhost:8080/v1/account/{accountId}
 
 "204 No Content - The HTTP 204 No Content success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page."
 
-<h4>What you Need</h4>
+#What you Need
+
 IDE (VScode)
 
 POSTMAN
@@ -37,7 +38,8 @@ npm
 
 JavaScript
 
-<h4>Instructions:</h4>
+#Instructions:
+
 Step 1: Download and unzip the source repository for this guide, or clone it using Git.
 
 Step 2: Create appropriate files in the IDE and write the code to test the API call in Postman.
@@ -57,21 +59,23 @@ http://localhost:8080/v1/user/self/ where you should see: "204 No Content".
 
 http://localhost:8080/v1/user/self where you should use: "204 No Content".
 
-<h4>Important Commands</h4>
-
+#Important Commands
+```
 brew install mysql
-
+```
+```
 npm start
-
+```
+```
 npm test
+```
 
-<h4> Packer </h4>
+Packer
 
 Update Packer
 ```
 packer validate base_ami.json
 ```
-
 
 Build Packer
 ```

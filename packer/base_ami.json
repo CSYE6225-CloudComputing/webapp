@@ -28,7 +28,7 @@
             {
                 "delete_on_termination": true,
                 "device_name": "/dev/xvda",
-                "volume_size": 60,
+                "volume_size": 50,
                 "volume_type": "gp2"
             }
         ],
@@ -38,5 +38,29 @@
             "Environment": "dev"
         }
       }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "setup.sh"
+        },
+        {
+            "type": "file",
+            "source": "../",
+            "destination": "/home/ubuntu/node-app"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "cd /home/ubuntu/node-app",
+                "sudo rm -rf package-lock.json",
+                "npm install",
+                "sudo pm2 start index.js",
+                "sudo pm2 startup systemd",
+                "sudo pm2 save",
+                "sudo pm2 list"
+            ]
+        }
     ]
   }
+  
