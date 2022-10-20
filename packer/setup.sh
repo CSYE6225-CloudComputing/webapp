@@ -19,9 +19,9 @@ sudo apt-get install -y nodejs
 sudo npm install -g pm2
 
 #mysql
-sudo apt-get -y install mysql-server
-sudo systemctl start mysql.service
-sudo systemctl status mysql
+# sudo apt-get -y install mysql-server
+# sudo systemctl start mysql.service
+# sudo systemctl status mysql
 
 
 node --version

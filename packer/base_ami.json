@@ -60,6 +60,14 @@
                 "sudo pm2 save",
                 "sudo pm2 list"
             ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt-get -y install mysql-server",
+                "sudo systemctl start mysql.service",
+                "sudo systemctl status mysql"
+            ]
         }
     ]
   }

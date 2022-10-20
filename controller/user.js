@@ -23,7 +23,7 @@ const getHealth = (req, res) => {
 // create user
 const createUser = (req, res, next) => {
     db.query(
-        `SELECT * FROM users WHERE LOWER(username) = LOWER(${db.escape(req.body.username)});`,
+        `SELECT * FROM clou.users WHERE LOWER(username) = LOWER(${db.escape(req.body.username)});`,
         (err, result) => {
             if (result.length) {
                 return res
@@ -39,7 +39,7 @@ const createUser = (req, res, next) => {
                     } else {
                         // has hashed pw => add to database
                         db.query(
-                            `INSERT INTO users (id,first_name, last_name, username, password,account_created) VALUES ('${uuidv4()}','${req.body.first_name}','${req.body.last_name}', ${db.escape(req.body.username)}, ${db.escape(hash)},'${moment(new Date()).format('YYYY-MM-DD hh:mm:ss')}')`,
+                            `INSERT INTO clou.users (id,first_name, last_name, username, password,account_created) VALUES ('${uuidv4()}','${req.body.first_name}','${req.body.last_name}', ${db.escape(req.body.username)}, ${db.escape(hash)},'${moment(new Date()).format('YYYY-MM-DD hh:mm:ss')}')`,
                             (err, result) => {
                                 if (err) {
                                     throw err;
@@ -63,7 +63,7 @@ const createUser = (req, res, next) => {
 // get user information
 const getUser = (req, res, next) => {
     db.query(
-        `SELECT * FROM users WHERE username = ${db.escape(req.body.username)};`,
+        `SELECT * FROM clou.users WHERE username = ${db.escape(req.body.username)};`,
         (err, result) => {
             // user does not exists
             if (err) {
@@ -112,7 +112,7 @@ const updateUser = (req, res, next) => {
     const user = auth(req);
 
     
-    db.query('SELECT * FROM users where username=?',
+    db.query('SELECT * FROM clou.users where username=?',
         user.name,
         (err, result) => {
             // user does not exists
@@ -154,7 +154,7 @@ const updateUser = (req, res, next) => {
 
                                     if (!req.body.username){
 
-                                    db.query(` UPDATE users SET 
+                                    db.query(` UPDATE clou.users SET 
                                     first_name = '${req.body.first_name}',
                                     last_name = '${req.body.last_name}', 
                                     password = '${hash}',
