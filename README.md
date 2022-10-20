@@ -26,7 +26,7 @@ GET - http://localhost:8080/v1/account/{accountId}
 
 "204 No Content - The HTTP 204 No Content success status response code indicates that a request has succeeded, but that the client doesn't need to navigate away from its current page."
 
-#What you Need
+# What you Need
 
 IDE (VScode)
 
@@ -38,7 +38,7 @@ npm
 
 JavaScript
 
-#Instructions:
+# Instructions:
 
 Step 1: Download and unzip the source repository for this guide, or clone it using Git.
 
@@ -59,7 +59,7 @@ http://localhost:8080/v1/user/self/ where you should see: "204 No Content".
 
 http://localhost:8080/v1/user/self where you should use: "204 No Content".
 
-#Important Commands
+# Important Commands
 ```
 brew install mysql
 ```
@@ -70,7 +70,7 @@ npm start
 npm test
 ```
 
-Packer
+# Packer
 
 Update Packer
 ```
