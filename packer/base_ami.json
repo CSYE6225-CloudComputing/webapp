@@ -60,9 +60,7 @@
                 "sudo pm2 startup systemd",
                 "sudo pm2 save",
                 "sudo ln -s /home/ubuntu/node-app/webapp.service /etc/systemd/system/webapp.service",
-                "sudo systemctl daemon-reload",
-                "sudo systemctl enable webapp.service",
-                "sudo systemctl start webapp.service"
+                "sudo systemctl daemon-reload"
             ]
         },
         {
@@ -73,7 +71,10 @@
                 "systemctl status mysql",
                 "sudo systemctl start mysql",
                 "sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';\"",
-                "sudo mysql -u root -ppassword -e \"CREATE DATABASE IF NOT EXISTS userDB;\""
+                "sudo mysql -u root -ppassword -e \"CREATE DATABASE IF NOT EXISTS usersDB;\"",
+                "cd /home/ubuntu/node-app",
+                "sudo systemctl enable webapp.service",
+                "sudo systemctl start webapp.service"
             ]
         }
     ]

@@ -3,7 +3,6 @@ const router = require('./routes/router.js');
 const bodyParser = require('body-parser');
 const db = require("./config/sequelizeDB.js");
 const baseAuthentication = require('./utils/auth.js');
-
 const app = express();
 
 app.use(express.json());
@@ -22,10 +21,22 @@ app.use(function(req, res, next) {
 
 db.sequelize.sync();
 
-const port = process.env.PORT || 2000;
+const port = process.env.PORT || 80;
 
-module.exports = app.listen(port, () => {
+module.exports = app.listen(port,'0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
-});;
+});
+
+
+
+process.on("SIGUSR2", () => {
+    console.log("server shutting down");
+    setTimeout(() => {
+      console.log("hello?");
+    }, 80);
+});
+
+
 
 module.exports = app;
+
