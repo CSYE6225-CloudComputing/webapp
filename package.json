@@ -18,14 +18,20 @@
   },
   "homepage": "https://github.com/Prasanna-Nimbalkar/webapp#readme",
   "dependencies": {
+    "aws-sdk": "^2.1239.0",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "file-system": "^2.2.2",
+    "fileupload": "^1.0.0",
     "moment": "^2.29.4",
+    "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "path": "^0.12.7",
     "sequelize": "^6.25.3",
+    "underscore": "^1.13.6",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

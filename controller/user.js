@@ -14,7 +14,7 @@ async function createUser (req, res, next) {
             message: 'Enter your Email ID in correct format. Example: abc@xyz.com'
         });
     }
-    const getUser = await User .findOne({where: {username: req.body.username}}).catch(err => {
+    const getUser = await User.findOne({where: {username: req.body.username}}).catch(err => {
         res.status(500).send({
             message: err.message || 'Some error occurred while creating the user'
         });
@@ -25,7 +25,7 @@ async function createUser (req, res, next) {
         });
     } else {
         var user = {
-            id: uuidv4(),
+            user_id: uuidv4(),
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             password: hash,
@@ -34,7 +34,7 @@ async function createUser (req, res, next) {
     
     User.create(user).then(data => {
         res.status(201).send({
-            id: data.id,
+            user_id: data.id,
             first_name: data.first_name,
             last_name: data.last_name,
             username: data.username,
@@ -57,7 +57,7 @@ async function getUser(req, res, next) {
     const user = await getUserByUsername(req.user.username);
     if (user) {
         res.status(200).send({
-            id: user.dataValues.id,
+            user_id: user.dataValues.id,
             first_name: user.dataValues.first_name,
             last_name: user.dataValues.last_name,
             username: user.dataValues.username,
@@ -103,7 +103,7 @@ async function getUserByUsername(username) {
     return User.findOne({where : {username: username}});
 }
 
-async function comparePasswords (existingPassword, currentPassword) {
+async function comparePasswords(existingPassword, currentPassword) {
     return bcrypt.compare(existingPassword, currentPassword);
 }
 
