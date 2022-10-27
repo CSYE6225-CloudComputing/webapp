@@ -53,20 +53,28 @@
             "type": "shell",
             "inline": [
                 "cd /home/ubuntu/node-app",
-                "sudo rm -rf package-lock.json",
-                "npm install",
+                "rm -rf node_modules",
+                "rm -rf package-lock.json",
+                "sudo npm install",
                 "sudo pm2 start index.js",
                 "sudo pm2 startup systemd",
                 "sudo pm2 save",
-                "sudo pm2 list"
+                "sudo ln -s /home/ubuntu/node-app/webapp.service /etc/systemd/system/webapp.service",
+                "sudo systemctl daemon-reload"
             ]
         },
         {
             "type": "shell",
             "inline": [
                 "sudo apt-get -y install mysql-server",
-                "sudo systemctl start mysql.service",
-                "sudo systemctl status mysql"
+                "sudo systemctl enable --now mysql",
+                "systemctl status mysql",
+                "sudo systemctl start mysql",
+                "sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';\"",
+                "sudo mysql -u root -ppassword -e \"CREATE DATABASE IF NOT EXISTS usersDB;\"",
+                "cd /home/ubuntu/node-app",
+                "sudo systemctl enable webapp.service",
+                "sudo systemctl start webapp.service"
             ]
         }
     ]
