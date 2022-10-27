@@ -1,12 +1,12 @@
 {
     "variables": {
-    "aws_access_key": "AKIA2UIWI4CMTZJK624R",
-    "aws_secret_key": "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",
-    "vpc_region": "us-east-1",
-    "vpc_id": "vpc-0cbbb59d08f9d3cc6",
-    "source_ami": "ami-08c40ec9ead489470",
-    "subnet_id": "subnet-02bb6c4836a080b5e",
-    "ssh_username": "ubuntu"
+        "aws_access_key": "",
+        "aws_secret_key": "",
+        "vpc_region": "us-east-1",
+        "vpc_id": "",
+        "source_ami": "ami-08c40ec9ead489470",
+        "subnet_id": "",
+        "ssh_username": "ubuntu"
   },
     "builders": [
       {
@@ -53,6 +53,8 @@
             "type": "shell",
             "inline": [
                 "cd /home/ubuntu/node-app",
+                "rm -rf .env",
+                "rm -rf /uploads",
                 "rm -rf node_modules",
                 "rm -rf package-lock.json",
                 "sudo npm install",
