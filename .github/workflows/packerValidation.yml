@@ -22,5 +22,5 @@ jobs:
       - name: Build Packer Template
         uses: ExitoLab/packer_build_action_aws@v0.2.10
         with:
-          templateFile: "base_ami.json"
+          templateFile: "./packer/base_ami.json"
           workingDir: "packer"
