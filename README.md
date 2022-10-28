@@ -12,6 +12,17 @@ PUT - http://localhost:8080/v1/account/{accountId}
 GET - http://localhost:8080/v1/account/{accountId}
 
 
+
+Document Actions
+
+POST - http://localhost:8080/v1/documents
+
+GET - http://localhost:8080/v1/documents/
+
+DELETE - http://localhost:8080/v1/documents/{documentID}
+
+GET - http://localhost:8080/v1/documents/{documentID}
+
 # Responds with following HTTP messages
 
 "400 Bad Request - The server could not understand the request due to invalid syntax."
