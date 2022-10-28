@@ -53,7 +53,6 @@
             "type": "shell",
             "inline": [
                 "cd /home/ubuntu/node-app",
-                "rm -rf .env",
                 "rm -rf /uploads",
                 "rm -rf node_modules",
                 "rm -rf package-lock.json",
@@ -68,12 +67,7 @@
         {
             "type": "shell",
             "inline": [
-                "sudo apt-get -y install mysql-server",
-                "sudo systemctl enable --now mysql",
-                "systemctl status mysql",
-                "sudo systemctl start mysql",
-                "sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';\"",
-                "sudo mysql -u root -ppassword -e \"CREATE DATABASE IF NOT EXISTS usersDB;\"",
+               
                 "cd /home/ubuntu/node-app",
                 "sudo systemctl enable webapp.service",
                 "sudo systemctl start webapp.service"
