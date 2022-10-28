@@ -35,7 +35,7 @@ const fileUpload = async (source, targetName, s3, fileId, req, res) => {
                     console.log('s3 error', err)
                     res
                         .status(500)
-                        .send({message:'500 error' + err});
+                        .send({message:'500 error - ' + err});
                         
                 } else {
                     const aws_metadata = JSON.parse(JSON.stringify(data));
