@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Prasanna-Nimbalkar/webapp#readme",
   "dependencies": {
-    "aws-sdk": "^2.1239.0",
+    "aws-sdk": "^2.1242.0",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.2",

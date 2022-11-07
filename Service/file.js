@@ -9,6 +9,9 @@ const util = require('util')
 const unlinkFile = util.promisify(fs.unlink)
 require('dotenv').config()
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 // Document Upload
 const fileUpload = async (source, targetName, s3, fileId, req, res) => {
@@ -30,6 +33,8 @@ const fileUpload = async (source, targetName, s3, fileId, req, res) => {
                 Body: filedata
             };
 
+            sleep(4000);
+
             await s3.upload(params, async (err, data) => {
                 if (err) {
                     console.log('s3 error', err)
@@ -48,6 +53,8 @@ const fileUpload = async (source, targetName, s3, fileId, req, res) => {
                         user_id: user.user_id,
 
                     };
+
+                    console.error(Document, 'color: green;')
 
                     Document
                         .create(document)

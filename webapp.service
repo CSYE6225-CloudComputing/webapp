@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Environment=NODE_PORT=3000
 Type=simple
-User=ec2-user
+User=ubuntu
 ExecStart=/usr/bin/node /home/ubuntu/node-app/index.js
 Restart=always
 RestartSec=10
