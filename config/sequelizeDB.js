@@ -17,7 +17,7 @@ const sequelize = new Sequelize(configDB.db.database, configDB.db.user, configDB
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.users = require('./usersDB')(sequelize, Sequelize);
+db.users = require('./userDB')(sequelize, Sequelize);
 db.documents = require('./documentsDB')(sequelize, Sequelize);
 
 db.documents.belongsTo(db.users, {foreignKey: 'user_id' });

@@ -34,7 +34,7 @@ async function createUser (req, res, next) {
     
     User.create(user).then(data => {
         res.status(201).send({
-            user_id: data.id,
+            user_id: data.user_id,
             first_name: data.first_name,
             last_name: data.last_name,
             username: data.username,
@@ -57,7 +57,7 @@ async function getUser(req, res, next) {
     const user = await getUserByUsername(req.user.username);
     if (user) {
         res.status(200).send({
-            user_id: user.dataValues.id,
+            user_id: user.dataValues.user_id,
             first_name: user.dataValues.first_name,
             last_name: user.dataValues.last_name,
             username: user.dataValues.username,

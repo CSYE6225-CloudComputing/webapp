@@ -17,10 +17,10 @@ router.get("/healthz", (req, res) => {
 router.post(`/v1/account`, userController.createUser);
 
 // GET Method (With Authentication)
-router.get(`/v1/account/:id`, baseAuthentication() , userController.getUser);
+router.get(`/v1/account/:user_id`, baseAuthentication() , userController.getUser);
 
 // PUT Method
-router.put(`/v1/account/:id`, baseAuthentication() , userController.updateUser);
+router.put(`/v1/account/:user_id`, baseAuthentication() , userController.updateUser);
 
 
 

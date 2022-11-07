@@ -32,7 +32,6 @@ async function getUserByUsername(username) {
 }
 
 
-
 // // get doc_id
 async function getDocumentByDocId(doc_id) {
     return Document.findOne({
@@ -43,20 +42,28 @@ async function getDocumentByDocId(doc_id) {
 }
 
 
-
-
 // Upload Document
 async function uploadUserDoc(req, res, next) {
 
     const user = await getUserByUsername(req.user.username);
 
-    // var document = await Document.findOne({
-    //     where: {
-    //         user_id: user.user_id
-    //     }
-    // });
+    console.log('=========================duplicate-check===================================')
 
     console.log(req.file)
+    
+    var documentCheck = await Document.findAll({
+        where: {
+            name: req.file.originalname
+        }
+    });
+
+    if (documentCheck == 0){
+        console.log('true')
+    }else{
+        console.log('false')
+    }
+
+    console.log('=========================response===================================')
 
     if (!req.file) {
         res
@@ -79,7 +86,7 @@ async function uploadUserDoc(req, res, next) {
             .send({message: 'Unsupported File Type'});
         console.log("Unsupported File Format..!");
 
-    } else {
+    } else if (documentCheck == 0){
 
         const fileId = uuidv4();
 
@@ -88,7 +95,16 @@ async function uploadUserDoc(req, res, next) {
 
         await fileService.fileUpload(req.file.path, fileName, s3, fileId, req, res);
 
+    } else {
+        res
+            .status(409)
+            .send({message: 'Document with same name exists'});
+        console.log('Document with same name exists')
+
     }
+
+    console.log('============================================================')
+
 
 }
 
@@ -140,33 +156,19 @@ async function getUserDocs(req, res, next) {
 
     console.log("in file ----------- get all documents ----------")
 
-
     const user = await getUserByUsername(req.user.username);
 
-
-    console.log(await Document.findAll({
-            where: {
-                user_id: user.user_id
-            }
-        }))
-
-    var document = await Document.findOne({
+    var document = await Document.findAll({
         where: {
             user_id: user.user_id
         }
     });
 
-
+    console.log(document);
 
     if (document) {
         res.status(200)
-        .send( {
-            name: document.name,
-            doc_id: document.doc_id,
-            s3_bucket_path: document.s3_bucket_path,
-            updatedAt: document.updatedAt,
-            user_id: document.user_id
-        });
+        .send(document);
         
     } else {
         res.status(404).send({
