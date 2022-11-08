@@ -29,11 +29,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 
 
-      - name: Build Packer Template
-        uses: ExitoLab/packer_build_action_aws@v0.2.10
-        with:
-          templateFile: "base_ami.json"
-          workingDir: "packer"
+      # - name: Build Packer Template
+      #   uses: ExitoLab/packer_build_action_aws@v0.2.10
+      #   with:
+      #     templateFile: "base_ami.json"
+      #     workingDir: "packer"
 
       # Initialize Packer templates
       - name: Initialize Packer Template
