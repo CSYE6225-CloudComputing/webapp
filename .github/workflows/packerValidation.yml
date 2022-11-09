@@ -43,7 +43,6 @@ jobs:
           target: ${{ github.workspace }}/packer/base_ami.json.pkr.hcl
 
 
-
       # validate templates
       - name: Validate Template
         uses: hashicorp/packer-github-actions@master
