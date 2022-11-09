@@ -48,4 +48,4 @@ jobs:
         with:
           command: validate
           arguments: -syntax-only
-          target: ./packer/base_ami.json
+          target: ./packer/base_ami.json.pkr.hcl
