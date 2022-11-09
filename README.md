@@ -70,7 +70,7 @@ http://localhost:8080/v1/user/self/ where you should see: "204 No Content".
 
 http://localhost:8080/v1/user/self where you should use: "204 No Content".
 
-# Important Commands
+# Important Command
 ```
 brew install mysql
 ```
