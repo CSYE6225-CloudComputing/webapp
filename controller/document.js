@@ -7,6 +7,12 @@ const fileService = require('../Service/file');
 const AWS = require('aws-sdk');
 const fs = require('fs')
 
+const logger = require("../config/logger");
+
+const SDC = require('statsd-client');
+const dbConfig = require('../config/configDB.js');
+const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
+
 const User = db.users;
 const Document = db.documents;
 
@@ -66,6 +72,7 @@ async function uploadUserDoc(req, res, next) {
     console.log('=========================response===================================')
 
     if (!req.file) {
+        logger.error("No File Uploaded!");
         res
             .status(400)
             .send({message: 'No File Uploaded!'});
@@ -80,7 +87,7 @@ async function uploadUserDoc(req, res, next) {
 
 
     if (!mimetype && !extname) {
-
+        logger.error("Document File Not Supported");
         res
             .status(400)
             .send({message: 'Unsupported File Type'});
@@ -96,6 +103,7 @@ async function uploadUserDoc(req, res, next) {
         await fileService.fileUpload(req.file.path, fileName, s3, fileId, req, res);
 
     } else {
+        logger.error("Document with same name exists");
         res
             .status(409)
             .send({message: 'Document with same name exists'});
@@ -137,6 +145,7 @@ async function getUserDoc(req, res, next) {
     });
 
     if (document) {
+        logger.error("Document found !");
         res.status(200).send({
             name: document.name,
             doc_id: document.doc_id,
@@ -145,6 +154,7 @@ async function getUserDoc(req, res, next) {
             user_id: document.user_id
         });
     } else {
+        logger.error("No Document found !");
         res.status(404).send({
             message: 'No Document found!'
         });
@@ -167,10 +177,12 @@ async function getUserDocs(req, res, next) {
     console.log(document);
 
     if (document) {
+        logger.error("Document found");
         res.status(200)
         .send(document);
         
     } else {
+        logger.error("No Document avaliable !");
         res.status(404).send({
             message: 'No Document avaliable!'
         });
@@ -203,14 +215,17 @@ async function deleteUserDoc(req, res, next) {
         console.log('delete doc', document);
         var del = await fileService.deleteFile(s3, document);
         if (del) {
+            logger.error(" Document deleted !");
             res.status(200).send('')
         } else {
+            logger.error("error deleting Document !");
             res.status(404).send({
                 message: 'error deleting'
             });
         }
 
     } else {
+        logger.error(" Document not found !");
         res.status(404).send({
             message: 'No document found!'
         });

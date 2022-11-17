@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Prasanna-Nimbalkar/webapp#readme",
   "dependencies": {
+    "app-root-path": "^3.1.0",
     "aws-sdk": "^2.1242.0",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
@@ -32,7 +33,8 @@
     "path": "^0.12.7",
     "sequelize": "^6.25.3",
     "underscore": "^1.13.6",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "mocha": "^10.0.0",
