@@ -9,80 +9,150 @@ const SDC = require('statsd-client');
 const dbConfig = require('../config/configDB.js');
 const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
 
-// Create a User
 
-async function createUser (req, res, next) {
+const AWS = require('aws-sdk');
+AWS.config.update({
+    region: process.env.AWS_REGION || 'us-east-1'
+});
+var sns = new AWS.SNS({});
+var dynamoDatabase = new AWS.DynamoDB({
+    apiVersion: '2012-08-10',
+    region: process.env.AWS_REGION || 'us-east-1'
+});
+
+
+// Create a User
+async function createUser(req, res, next) {
+    console.log('create userrr')
     var hash = await bcrypt.hash(req.body.password, 10);
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    if(!emailRegex.test(req.body.username)) {
+    if (!emailRegex.test(req.body.username)) {
         logger.info("/create user 400");
         res.status(400).send({
             message: 'Enter your Email ID in correct format. Example: abc@xyz.com'
         });
     }
-    const getUser = await User.findOne({where: {username: req.body.username}}).catch(err => {
+    const getUser = await User.findOne({
+        where: {
+            username: req.body.username
+        }
+    }).catch(err => {
         logger.error("/create user error 500");
         res.status(500).send({
             message: err.message || 'Some error occurred while creating the user'
         });
     });
-    if(getUser) {
-        logger.error("/create user error 500 - User already exists!");
+
+    console.log('verified and existing 1');
+
+   
+    if (getUser) {
+        console.log('verified and existing', getUser.dataValues.isVerified);
+        var msg = getUser.dataValues.isVerified ? 'User already exists! & verified' : 'User already exists! & not verified';
+        console.log('verified and existing msg' ,msg);
+        
         res.status(400).send({
-            message: 'User already exists!'
+            message: msg
         });
     } else {
         var user = {
-            user_id: uuidv4(),
+            id: uuidv4(),
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             password: hash,
-            username: req.body.username
+            username: req.body.username,
+            isVerified: false
         };
-    
-    User.create(user).then(data => {
-        logger.info("/create user 201");
-        sdc.increment('endpoint.createuser');
-        res.status(201).send({
-            user_id: data.user_id,
-            first_name: data.first_name,
-            last_name: data.last_name,
-            username: data.username,
-            account_created: data.createdAt,
-            account_updated: data.updatedAt
-        });
-    })
-    .catch(err => {
-        logger.error(" Error while creating the user! 500");
-        res.status(500).send({
-            message:
-                err.message || "Some error occurred while creating the user!"
-        });
-    });
+        console.log('above user');
+        User.create(user).then(async udata => {
+
+                const randomnanoID = uuidv4();
+
+                const expiryTime = new Date().getTime();
+
+                // Create the Service interface for dynamoDB
+                var parameter = {
+                    TableName: 'csye-6225',
+                    Item: {
+                        'Email': {
+                            S: udata.username
+                        },
+                        'TokenName': {
+                            S: randomnanoID
+                        },
+                        'TimeToLive': {
+                            N: expiryTime.toString()
+                        }
+                    }
+                };
+                console.log('after user');
+                //saving the token onto the dynamo DB
+                try {
+                    var dydb = await dynamoDatabase.putItem(parameter).promise();
+                    console.log('try dynamoDatabase', dydb);
+                } catch (err) {
+                    console.log('err dynamoDatabase', err);
+                }
+
+                console.log('dynamoDatabase', dydb);
+                var msg = {
+                    'username': udata.username,
+                    'token': randomnanoID
+                };
+                console.log(JSON.stringify(msg));
+
+                const params = {
+
+                    Message: JSON.stringify(msg),
+                    Subject: randomnanoID,
+                    TopicArn: 'arn:aws:sns:us-east-1:981331903688:verify_email'
+
+                }
+                var publishTextPromise = await sns.publish(params).promise();
+
+                console.log('publishTextPromise', publishTextPromise);
+                res.status(201).send({
+                    user_id: data.user_id,	
+                    first_name: data.first_name,	
+                    last_name: data.last_name,	
+                    username: data.username,	
+                    account_created: data.createdAt,	
+                    account_updated: data.updatedAt
+                });
+
+            })
+            .catch(err => {
+                logger.error(" Error while creating the user! 500");
+                res.status(500).send({
+                    message: err.message || "Some error occurred while creating the user!"
+                });
+            });
     }
 }
 
-//Get a User
 
-async function getUser(req, res, next) {
-    const user = await getUserByUsername(req.user.username);
-    if (user) {
-        logger.info("get user 200");
-        res.status(200).send({
-            user_id: user.dataValues.user_id,
-            first_name: user.dataValues.first_name,
-            last_name: user.dataValues.last_name,
-            username: user.dataValues.username,
-            account_created: user.dataValues.createdAt,
-            account_updated: user.dataValues.updatedAt
-        });
-    } else {
-        logger.info("user not found");
-        res.status(400).send({
-            message: 'User not found!'
-        });
-    }
+//Get a User	
+async function getUser(req, res, next) {	
+    const user = await getUserByUsername(req.user.username);	
+    if (user) {	
+        logger.info("get user 200");	
+        res.status(200).send({	
+            user_id: user.dataValues.user_id,	
+            first_name: user.dataValues.first_name,	
+            last_name: user.dataValues.last_name,	
+            username: user.dataValues.username,	
+            account_created: user.dataValues.createdAt,	
+            account_updated: user.dataValues.updatedAt,
+            isVerified: user.dataValues.isVerified
+        });	
+    } else {	
+        logger.info("user not found");	
+        res.status(400).send({	
+            message: 'User not found!'	
+        });	
+    }	
 }
+
 
 // Update a user
 
