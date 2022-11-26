@@ -13,7 +13,7 @@ GET - http://localhost:8080/v1/account/{accountId}
 
 
 
-Document Actions
+Document Action's
 
 POST - http://localhost:8080/v1/documents
 
