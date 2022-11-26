@@ -27,3 +27,4 @@ npm --version
 
 mkdir node-app
 chown ubuntu:ubuntu /home/ubuntu/node-app
+chmod +x /tmp/*
