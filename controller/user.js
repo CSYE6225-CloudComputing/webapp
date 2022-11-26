@@ -23,7 +23,7 @@ var dynamoDatabase = new AWS.DynamoDB({
 
 // Create a User
 async function createUser(req, res, next) {
-    console.log('create userrr')
+    console.log('in create user')
     var hash = await bcrypt.hash(req.body.password, 10);
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     if (!emailRegex.test(req.body.username)) {
@@ -56,7 +56,7 @@ async function createUser(req, res, next) {
         });
     } else {
         var user = {
-            id: uuidv4(),
+            user_id: uuidv4(),
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             password: hash,
@@ -100,24 +100,26 @@ async function createUser(req, res, next) {
                     'token': randomnanoID
                 };
                 console.log(JSON.stringify(msg));
-
+                console.log(1)
                 const params = {
 
                     Message: JSON.stringify(msg),
                     Subject: randomnanoID,
-                    TopicArn: 'arn:aws:sns:us-east-1:981331903688:verify_email'
+                    TopicArn: 'arn:aws:sns:us-east-1:703952872868:verify_email'
 
                 }
+                console.log(2, params)
                 var publishTextPromise = await sns.publish(params).promise();
-
+                console.log(3)
                 console.log('publishTextPromise', publishTextPromise);
                 res.status(201).send({
-                    user_id: data.user_id,	
-                    first_name: data.first_name,	
-                    last_name: data.last_name,	
-                    username: data.username,	
-                    account_created: data.createdAt,	
-                    account_updated: data.updatedAt
+                    uaer_id: udata.id,
+                    first_name: udata.first_name,
+                    last_name: udata.last_name,
+                    username: udata.username,
+                    account_created: udata.createdAt,
+                    account_updated: udata.updatedAt,
+                    isVerified: udata.isVerified
                 });
 
             })
@@ -130,38 +132,129 @@ async function createUser(req, res, next) {
     }
 }
 
+// Verify user
+async function verifyUser(req, res, next) {
+    console.log('verifyUser :');
+    console.log('verifyUser :', req.query.email);
+    const user = await getUserByUsername(req.query.email);
+    if (user) {
+        console.log('got user  :');
+        if (user.dataValues.isVerified) {
+            res.status(202).send({
+                message: 'Already Successfully Verified!'
+            });
+        } else {
 
-//Get a User	
-async function getUser(req, res, next) {	
-    const user = await getUserByUsername(req.user.username);	
-    if (user) {	
-        logger.info("get user 200");	
-        res.status(200).send({	
-            user_id: user.dataValues.user_id,	
-            first_name: user.dataValues.first_name,	
-            last_name: user.dataValues.last_name,	
-            username: user.dataValues.username,	
-            account_created: user.dataValues.createdAt,	
-            account_updated: user.dataValues.updatedAt,
-            isVerified: user.dataValues.isVerified
-        });	
-    } else {	
-        logger.info("user not found");	
-        res.status(400).send({	
-            message: 'User not found!'	
-        });	
-    }	
+            var params = {
+                TableName: 'csye-6225',
+                Key: {
+                    'Email': {
+                        S: req.query.email
+                    },
+                    'TokenName': {
+                        S: req.query.token
+                    }
+                }
+            };
+            console.log('got user  param:');
+            // Call DynamoDB to read the item from the table
+
+            dynamoDatabase.getItem(params, function (err, data) {
+                if (err) {
+                    console.log("Error", err);
+                    res.status(400).send({
+                        message: 'unable to verify'
+                    });
+                } else {
+                    console.log("Success dynamoDatabase getItem", data.Item);
+                    try {
+                        var ttl = data.Item.TimeToLive.N;
+                        var curr = new Date().getTime();
+                        console.log(ttl);
+                        console.log('time diffrence', curr - ttl);
+                        var time = (curr - ttl) / 60000;
+                        console.log('time diffrence ', time);
+                        if (time < 5) {
+                            if (data.Item.Email.S == user.dataValues.username) {
+                                User.update({
+                                    isVerified: true,
+                                }, {
+                                    where: {
+                                        username: req.query.email
+                                    }
+                                }).then((result) => {
+                                    if (result == 1) {
+                                        logger.info("update user 204");
+                                        sdc.increment('endpoint.userUpdate');
+                                        res.status(200).send({
+                                            message: 'Successfully Verified!'
+                                        });
+                                    } else {
+                                        res.status(400).send({
+                                            message: 'unable to verify'
+                                        });
+                                    }
+                                }).catch(err => {
+                                    res.status(500).send({
+                                        message: 'Error Updating the user'
+                                    });
+                                });
+                            } else {
+                                res.status(400).send({
+                                    message: 'Token and email did not matched'
+                                });
+                            }
+                        } else {
+                            res.status(400).send({
+                                message: 'token Expired! Cannot verify Email'
+                            });
+                        }
+                    } catch (err) {
+                        console.log("Error", err);
+                        res.status(400).send({
+                            message: 'unable to verify'
+                        });
+                    }
+                }
+            });
+
+        }
+    } else {
+        res.status(400).send({
+            message: 'User not found!'
+        });
+    }
 }
 
+//Get a User
+async function getUser(req, res, next) {
+    const user = await getUserByUsername(req.user.username);
+    if (user) {
+        logger.info("get user 200");
+        res.status(200).send({
+            uaer_id: user.dataValues.id,
+            first_name: user.dataValues.first_name,
+            last_name: user.dataValues.last_name,
+            username: user.dataValues.username,
+            account_created: user.dataValues.createdAt,
+            account_updated: user.dataValues.updatedAt,
+            isVerified: user.dataValues.isVerified
+        });
+    } else {
+        res.status(400).send({
+            message: 'User not found!'
+        });
+    }
+}
 
 // Update a user
 
 async function updateUser(req, res, next) {
-    if(req.body.username != req.user.username) {
+    if (req.body.username != req.user.username) {
         logger.error("can not update user 400");
         res.status(400);
     }
-    if(!req.body.first_name || !req.body.last_name || !req.body.password) {
+    if (!req.body.first_name || !req.body.last_name || !req.body.username || !req.body.password) {
         logger.error("/update user failed 400");
         res.status(400).send({
             message: 'Enter all parameters!'
@@ -171,14 +264,18 @@ async function updateUser(req, res, next) {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         password: await bcrypt.hash(req.body.password, 10)
-    }, {where : {username: req.user.username}}).then((result) => {
-        logger.info("update user 204");
-        sdc.increment('endpoint.updateuser');
+    }, {
+        where: {
+            username: req.user.username
+        }
+    }).then((result) => {
         if (result == 1) {
+            logger.info("update user 204");
+            sdc.increment('endpoint.userUpdate');
             res.sendStatus(204);
         } else {
             res.sendStatus(400);
-        }   
+        }
     }).catch(err => {
         res.status(500).send({
             message: 'Error Updating the user'
@@ -199,5 +296,6 @@ module.exports = {
     getUser: getUser,
     getUserByUsername: getUserByUsername,
     comparePasswords: comparePasswords,
-    updateUser: updateUser
+    updateUser: updateUser,
+    verifyUser: verifyUser
 };

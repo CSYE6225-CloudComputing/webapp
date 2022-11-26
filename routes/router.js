@@ -32,6 +32,9 @@ router.get(`/v1/account/:user_id`, baseAuthentication() , userController.getUser
 // PUT Method
 router.put(`/v1/account/:user_id`, baseAuthentication() , userController.updateUser);
 
+// Verify User
+router.get("/v1/verifyUserEmail", userController.verifyUser);
+
 
 
 // -----------Document Routes-----------
