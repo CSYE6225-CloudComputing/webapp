@@ -109,8 +109,13 @@
                 "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ubuntu/node-app/statsd/cloudwatch-config.json",
                 "cd /home/ubuntu/node-app",
                 "sudo pm2 start index.js",
+                "sudo pm2 startup systemd",
                 "sudo pm2 save",
-                "sudo ln -s /home/ubuntu/node-app/webapp.service /etc/systemd/system/webapp.service"
+                "sudo ln -s /home/ubuntu/node-app/webapp.service /etc/systemd/system/webapp.service",
+                "sudo systemctl daemon-reload",
+                "cd /home/ubuntu/node-app",
+                "sudo systemctl enable webapp.service",
+                "sudo systemctl start webapp.service"
             ]
         }
 
