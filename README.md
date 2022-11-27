@@ -11,6 +11,8 @@ PUT - http://localhost:8080/v1/account/{accountId}
 
 GET - http://localhost:8080/v1/account/{accountId}
 
+GET - http://localhost:8080/v1/verifyUserEmail
+
 
 
 Document Action's
