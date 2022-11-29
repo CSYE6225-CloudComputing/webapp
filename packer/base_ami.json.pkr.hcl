@@ -47,6 +47,11 @@
         default = "us-east-1"
     }
 
+    variable "GITHUB_PATH" {
+        default = env("GITHUB_REPO_PATH")
+    }
+
+
     # "timestamp" template function replacement 
     locals {
         timestamp = regex_replace(timestamp(), "[- TZ:]", "")
@@ -91,9 +96,14 @@
             script = "packer/setup.sh"
         }
 
+        // provisioner "file" {
+        //     destination = "/home/ubuntu/node-app"
+        //     source = "../"
+        // }
+
         provisioner "file" {
-            destination = "/home/ubuntu/node-app"
-            source = "../"
+            destination = "/tmp/webservice.zip"
+            source      = "${var.GITHUB_PATH}/appDir/webservice.zip"
         }
 
         provisioner "shell" {
