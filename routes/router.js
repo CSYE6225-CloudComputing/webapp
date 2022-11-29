@@ -39,7 +39,16 @@ router.get("/v1/verifyUserEmail", userController.verifyUser);
 
 // -----------Document Routes-----------
 
-const upload = multer({ dest: 'uploads/' });
+const fileStorage = multer.diskStorage({
+    // Destination to store image     
+    destination: 'fileUpload'
+});
+
+const upload = multer({
+    storage: fileStorage 
+}) 
+
+// const upload = multer({ dest: 'uploads/' });
 
 
 
