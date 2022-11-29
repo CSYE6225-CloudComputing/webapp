@@ -102,8 +102,8 @@
         // }
 
         provisioner "file" {
-            destination = "/tmp/webservice.zip"
-            source      = "${var.GITHUB_PATH}/appDir/webservice.zip"
+            destination = "./webapp.zip"
+            source      = "/tmp/webapp.zip"
         }
 
         provisioner "shell" {
