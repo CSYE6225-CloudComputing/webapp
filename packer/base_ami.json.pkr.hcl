@@ -116,7 +116,7 @@
 
         provisioner "file" {
             destination = "/home/ubuntu/node-app"
-            source = "../"
+            source = "./"
         }
 
         // provisioner "file" {
@@ -131,7 +131,6 @@
                 "rm -rf .env",
                 "rm -rf node_modules",
                 "cd /home/ubuntu/node-app",
-                "sudo npm init",
                 "sudo npm install -g npm@latest",
                 "sudo npm cache clean --force",
                 "sudo npm install",

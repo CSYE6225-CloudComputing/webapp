@@ -20,6 +20,14 @@ sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/debian/amd64/latest/am
 sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 sudo apt-get install amazon-cloudwatch-agent
 
+# install codedeploy agent
+cd /home/ubuntu
+sudo wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+sudo chmod +x ./install
+sudo ./install auto
+sudo service codedeploy-agent status
+sudo service codedeploy-agent start
+sudo service codedeploy-agent status
 
 #zip
 sudo apt-get install zip unzip
@@ -40,4 +48,4 @@ npm --version
 mkdir node-app
 chown ubuntu:ubuntu /home/ubuntu/node-app
 sudo chmod 777 /tmp
-sudo chmod +x /tmp/script_*.sh
+sudo chmod u+x /tmp/script_*.sh
