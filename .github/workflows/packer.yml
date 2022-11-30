@@ -59,7 +59,7 @@ jobs:
         run: |
             echo "AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)" >> $GITHUB_ENV
             echo $AMI_ID
-            
+
       - name: Configure Production account's AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -68,7 +68,7 @@ jobs:
           aws-region: us-east-1
       - name: Run this
         run: |
-             aws ec2 create-launch-template-version --launch-template-name TemplateForEC2 --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID}}"}'
+             aws ec2 create-launch-template-version --launch-template-name LaunchTemplate --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID}}"}'
 
 # =================
 
