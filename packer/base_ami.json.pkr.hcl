@@ -93,6 +93,15 @@
         sources = ["source.amazon-ebs.ubuntu"]
 
 
+         provisioner "shell" {
+            inline = [
+                "mkdir -p /tmp",
+                "mkdir -p /tmp/packer/without-slash",
+                "mkdir -p /tmp/packer/with-slash"
+            ]
+        }
+
+
         provisioner "shell" {
             script = "packer/setup.sh"
             execute_command = "{{.Vars}} bash '{{.Path}}'"
@@ -100,9 +109,6 @@
 
         provisioner "shell" {
             inline = [
-                "mkdir -p /tmp",
-                "mkdir -p /tmp/packer/without-slash",
-                "mkdir -p /tmp/packer/with-slash",
                 "cd /home/ubuntu/node-app",
                 "sudo mkdir fileUpload"  
             ]
