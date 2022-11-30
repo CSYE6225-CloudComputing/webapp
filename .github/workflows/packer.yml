@@ -1,4 +1,4 @@
-name: Packer Validation
+name: Packer Build
 
 env:
   CI: true
@@ -54,7 +54,8 @@ jobs:
           target: ${{ github.workspace }}/packer/base_ami.json.pkr.hcl
         env:
           PACKER_LOG: 1
-#-----------------
+          
+      # getting AMI ID
       - name: Get ID
         run: |
             echo "AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)" >> $GITHUB_ENV
@@ -66,6 +67,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
       - name: Run this
         run: |
              aws ec2 create-launch-template-version --launch-template-name LaunchTemplate --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID}}"}'
