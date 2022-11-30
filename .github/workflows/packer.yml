@@ -26,8 +26,8 @@ jobs:
           aws-region: us-east-1 
 
       #Compressing the repository
-      - name: Zip the repository
-        run: zip -r webapp.zip . -x ".git/*" ".github/*"
+      # - name: Zip the repository
+      #   run: zip -r webapp.zip . -x ".git/*" ".github/*"
 
 
       # - name: Build Packer Template

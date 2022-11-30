@@ -103,15 +103,15 @@
             ]
         }
 
-        // provisioner "file" {
-        //     destination = "/home/ubuntu/node-app"
-        //     source = "../"
-        // }
-
         provisioner "file" {
-            source = "./webapp.zip"
-            destination = "/tmp/webapp.zip"
+            destination = "/home/ubuntu/node-app"
+            source = "../"
         }
+
+        // provisioner "file" {
+        //     source = "./webapp.zip"
+        //     destination = "/tmp/webapp.zip"
+        // }
 
         provisioner "shell" {
             inline = [
