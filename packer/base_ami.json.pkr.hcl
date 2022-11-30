@@ -92,10 +92,6 @@
     build {
         sources = ["source.amazon-ebs.ubuntu"]
 
-        provisioner "file" {
-            source = "./webapp.zip"
-            destination = "/tmp/webapp.zip"
-        }
 
         provisioner "shell" {
             script = "packer/setup.sh"
@@ -108,10 +104,10 @@
             ]
         }
 
-        // provisioner "file" {
-        //     destination = "/home/ubuntu/node-app"
-        //     source = "../"
-        // }
+        provisioner "file" {
+            destination = "/home/ubuntu/node-app"
+            source = "../"
+        }
 
         // provisioner "file" {
         //     source = "./webapp.zip"
@@ -120,7 +116,14 @@
 
         provisioner "shell" {
             inline = [
-               
+                "cd /home/ubuntu/node-app",
+                "rm -rf /uploads",
+                "rm -rf .env",
+                "rm -rf node_modules",
+                "cd /home/ubuntu/node-app",
+                "sudo npm init"
+                "sudo npm install -g npm@latest",
+                "sudo npm cache clean --force",
                 "sudo npm install",
                 "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ubuntu/node-app/statsd/cloudwatch-config.json",
                 "cd /home/ubuntu/node-app",

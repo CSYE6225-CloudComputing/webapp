@@ -25,17 +25,17 @@ sudo apt-get install amazon-cloudwatch-agent
 sudo apt-get install zip unzip
 
 #unzip
-mkdir -p ~/node-app/
-mv /tmp/webapp.zip ~/node-app/
-cd ~/node-app
-unzip webapp.zip -d webapp
-cd webapp
-ls
-npm install
+# mkdir -p ~/node-app/
+# mv /tmp/webapp.zip ~/node-app/
+# cd ~/node-app
+# unzip webapp.zip -d webapp
+# cd webapp
+# ls
+# npm install
 
 
 node --version
 npm --version
 
-# mkdir node-app
-# chown ubuntu:ubuntu /home/ubuntu/node-app
+mkdir node-app
+chown ubuntu:ubuntu /home/ubuntu/node-app
