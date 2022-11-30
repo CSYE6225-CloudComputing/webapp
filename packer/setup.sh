@@ -39,5 +39,5 @@ npm --version
 
 mkdir node-app
 chown ubuntu:ubuntu /home/ubuntu/node-app
-chmod 777 /tmp
-chmod +x /tmpscript_*.sh
+sudo chmod 777 /tmp
+sudo chmod +x /tmp/script_*.sh
