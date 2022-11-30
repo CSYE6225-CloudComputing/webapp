@@ -96,6 +96,13 @@
             script = "packer/setup.sh"
         }
 
+        provisioner "shell" {
+            inline = [
+                "cd /home/ubuntu/node-app",
+                "sudo mkdir fileUpload"  
+            ]
+        }
+
         // provisioner "file" {
         //     destination = "/home/ubuntu/node-app"
         //     source = "../"
