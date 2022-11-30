@@ -102,8 +102,8 @@
         // }
 
         provisioner "file" {
-            destination = "./webapp.zip"
-            source      = "./tmp/webapp.zip"
+            source = "./webapp.zip"
+            destination = "/tmp/webapp.zip"
         }
 
         provisioner "shell" {
