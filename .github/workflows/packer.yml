@@ -29,19 +29,6 @@ jobs:
       - name: Zip the repository
         run: zip -r webapp.zip . -x ".git/*" ".github/*"
 
-      # #build zip file
-      # - name: build zip file
-      #   run: |
-      #     echo "PWD: $(pwd)"
-      #     cd ../
-      #     zip -r webservice.zip webservice
-      #     ls -l
-      #     echo "PWD: $(pwd)"
-      #     cd webservice
-      #     echo "mkdir"; mkdir appDir
-      #     cp ../webservice.zip appDir
-      #     ls -l appDir
-      #     echo $GITHUB_PATH
 
       # - name: Build Packer Template
       #   uses: ExitoLab/packer_build_action_aws@v0.2.10
