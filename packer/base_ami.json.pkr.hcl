@@ -94,7 +94,7 @@
 
 
         provisioner "shell" {
-            script = "packer/setup.sh",
+            script = "packer/setup.sh"
             execute_command = "{{.Vars}} bash '{{.Path}}'"
         }
 
