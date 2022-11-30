@@ -147,12 +147,12 @@
             ]
         }
 
-        provisioner "shell" {
-            inline = [
-                "cd /home/ubuntu/node-app"
+        // provisioner "shell" {
+        //     inline = [
+        //         "cd /home/ubuntu/node-app"
                   
-            ]
-        }
+        //     ]
+        // }
 
         post-processor "manifest" {
             output = "manifest.json"
