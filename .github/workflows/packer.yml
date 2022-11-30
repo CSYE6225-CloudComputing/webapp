@@ -2,7 +2,7 @@ name: Packer Validation
 
 env:
   CI: true
-  ssh_username: "ubuntu"
+  ssh_username: "root"
   GITHUB_REPO_PATH: ${{ github.workspace }}
 
 
