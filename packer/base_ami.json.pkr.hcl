@@ -100,6 +100,9 @@
 
         provisioner "shell" {
             inline = [
+                "mkdir -p /tmp",
+                "mkdir -p /tmp/packer/without-slash",
+                "mkdir -p /tmp/packer/with-slash"
                 "cd /home/ubuntu/node-app",
                 "sudo mkdir fileUpload"  
             ]
