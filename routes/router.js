@@ -11,14 +11,6 @@ const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_POR
 var start = new Date();
 
 
-// new
-const { S3Client } = require('@aws-sdk/client-s3')
-const multerS3 = require('multer-s3')
-const env = process.env || 'initial';
-
-// new end
-
-
 // -----------User Routes-----------
 
 // GET Method
@@ -46,32 +38,16 @@ router.get("/v1/verifyUserEmail", userController.verifyUser);
 
 // -----------Document Routes-----------
 
-// const fileStorage = multer.diskStorage({
-//     // Destination to store image     
-//     destination: 'fileUpload'
-// });
+const fileStorage = multer.diskStorage({
+    // Destination to store image     
+    destination: 'fileUpload'
+});
 
-// const upload = multer({
-//     storage: fileStorage 
-// }) 
+const upload = multer({
+    storage: fileStorage 
+}) 
 
 // const upload = multer({ dest: 'uploads/' });
-
-
-
-const s3 = new S3Client()
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: env.AWS_BUCKET_NAME,
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
-    },
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString())
-    }
-  })
-})
 
 
 
