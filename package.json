@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Prasanna-Nimbalkar/webapp#readme",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.218.0",
     "app-root-path": "^3.1.0",
     "aws-sdk": "^2.1242.0",
     "basic-auth": "^2.0.1",
@@ -28,6 +29,7 @@
     "fileupload": "^1.0.0",
     "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "path": "^0.12.7",
