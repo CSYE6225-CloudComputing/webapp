@@ -14,7 +14,7 @@ var start = new Date();
 // -----------User Routes-----------
 
 // GET Method
-router.get("/healthz", (req, res) => {
+router.get("/health", (req, res) => {
     console.log("Is it hitting?")
     sdc.timing('health.timeout', start);
     logger.info("/health running fine");
